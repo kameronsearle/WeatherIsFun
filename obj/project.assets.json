@@ -12937,32 +12937,28 @@
   },
   "packageFolders": {
     "C:\\Users\\Kameron\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kameron\\Documents\\GitHub\\WeatherIsFun\\WeatherIsFun.csproj",
+      "projectUniqueName": "D:\\Files\\SCHOOL\\19 SU\\CS 3750\\Group Assignment2\\WeatherIsFun\\WeatherIsFun.csproj",
       "projectName": "WeatherIsFun",
-      "projectPath": "C:\\Users\\Kameron\\Documents\\GitHub\\WeatherIsFun\\WeatherIsFun.csproj",
+      "projectPath": "D:\\Files\\SCHOOL\\19 SU\\CS 3750\\Group Assignment2\\WeatherIsFun\\WeatherIsFun.csproj",
       "packagesPath": "C:\\Users\\Kameron\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Kameron\\Documents\\GitHub\\WeatherIsFun\\obj\\",
+      "outputPath": "D:\\Files\\SCHOOL\\19 SU\\CS 3750\\Group Assignment2\\WeatherIsFun\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
         "C:\\Users\\Kameron\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
