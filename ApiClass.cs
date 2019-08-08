@@ -33,13 +33,11 @@ namespace WeatherIsFun
             Console.WriteLine("TESTTTTTT");
         }
         
-        public string getWeatherByCityName(string city)
+        public string getWeatherByCityName(string city, string state)
         {
-            string complete = "city="+ city +",US&appid=" + ApiClass.ApiKey;
-            
-            Uri cityUri = new Uri(complete);           
-            Uri newUri = new Uri(ApiClass.weatherUri, cityUri);
-            
+            string cityString = $"city={city},US&key={ApiClass.ApiKey}";
+
+            Uri cityUri = new Uri(cityString);
 
             //do the request here
             //then return it
