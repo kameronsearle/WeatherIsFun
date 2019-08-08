@@ -36,3 +36,8 @@ h1 {
 .clear {
   background-image: url(~/Images/sunny_image.jpg);
 }
+
+.tick text {
+  font-size: 14px;
+  overflow-wrap: normal;
+}

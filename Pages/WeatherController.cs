@@ -36,14 +36,14 @@ namespace WeatherIsFun.Pages
 
                 if (welcome == null)
                 {
-                    return "{success: false, message: \"failed to get welcome\"}";
+                    return "{\"success\": false, \"message\": \"failed to get welcome\"}";
                 }
 
                 var forecast = await weatherClient.GetForecastFromWelcome(welcome);
 
                 if (forecast == null)
                 {
-                    return "{success: false, message: \"failed to get forecast\"}";
+                    return "{\"success\": false, \"message\": \"failed to get forecast\"}";
                 }
 
 
@@ -52,7 +52,7 @@ namespace WeatherIsFun.Pages
             catch (Exception e)
             {
                 // default error message
-                return $"{{success: false, message: \"{e.Message}\"}}";
+                return $"{{\"success\": false, \"message\": \"{e.Message}\"}}";
             }
 
         }

@@ -16,12 +16,15 @@ function doWeatherRequest() {
     let request = new XMLHttpRequest();
 
     request.onreadystatechange = function () {
-      if (this.readyState === 4 && this.status === 200) {
-        processResponseCallback(this.response);
-        var label = document.getElementById('weatherLocation');
-        label.innerText = address.value;
+      if (this.readyState === 4) {
+        if (this.status === 200) {
+          processResponseCallback(this.response);
+          var label = document.getElementById('weatherLocation');
+          label.innerText = address.value;
+        } else {
+          alert("Error getting weather for" + address.value);
+        }
       } else {
-        console.log('not finished', request.response);
       }
     };
 
@@ -34,32 +37,26 @@ function doWeatherRequest() {
 
 function processResponseCallback(response) {
   let forecast = JSON.parse(response);
-  console.log(forecast);
-  drawHistogram(forecast.properties.periods);
+  if (forecast.properties === undefined) {
+    alert("Failed to get weather for location");
+  } else {
+    drawHistogram(forecast.properties.periods.slice(0, 10));
+  }
 }
 
 
 window.onload = function (e) {
   var button = document.getElementById("getWeatherButton");
   button.onclick = doWeatherRequest;
-  // TODO add if else logic for the button to work
 };
 
 function drawHistogram(data) {
-  console.log(data);
-  function stackMax(serie) {
-    return d3.max(serie, function (d) { return d[1]; });
-  }
-
-  function stackMin(serie) {
-    return d3.min(serie, function (d) { return d[0]; });
-  }
-
-  var series = data;
-  console.log(series);
+  
   var svg = d3.select("svg"), margin = { top: 30, right: 20, bottom: 30, left: 60 },
     width = +svg.attr("width"),
     height = +svg.attr("height");
+
+  svg.selectAll("*").remove();
 
   // add images
 
@@ -93,6 +90,26 @@ function drawHistogram(data) {
     .attr("xlink:href", "Images/raining.jpg")
     .attr("width", 1024)
     .attr("height", 760);
+
+  defs.append("pattern")
+    .attr("id", "cloudy")
+    .attr("patternUnits", "userSpaceOnUse")
+    .attr("width", width)
+    .attr("height", height)
+    .append("image")
+    .attr("xlink:href", "Images/cloudy.jpg")
+    .attr("width", 1485)
+    .attr("height", 810);
+
+  defs.append("pattern")
+    .attr("id", "nightcloudy")
+    .attr("patternUnits", "userSpaceOnUse")
+    .attr("width", width)
+    .attr("height", height)
+    .append("image")
+    .attr("xlink:href", "Images/night_cloudy.jpg")
+    .attr("width", 1296)
+    .attr("height", 864);
   
 
   var x = d3.scaleBand()
@@ -114,7 +131,7 @@ function drawHistogram(data) {
 
   var rows = svg.append("g")
     .selectAll("g")
-    .data(series)
+    .data(data)
     .enter().append("g")
     .attr("fill", function (d) {
       return z(d.key);
@@ -138,17 +155,24 @@ function drawHistogram(data) {
     })
     .attr("fill", function (d) {
       if (d.isDaytime) {
-        if (d.shortForecast.includes("Rain")) {
+        if (d.shortForecast.includes("Rain") || d.shortForecast.includes("rain")) {
           return "url(#rain)";
-        } else {
+        } else if (d.shortForecast.includes("Cloudy") || d.shortForecast.includes("Overcast")) {
+          return "url(#cloudy)";
+        }
+        else {
           return "url(#clear)";
         }
       } else {
-        return "url(#night)";
+        if (d.shortForecast.includes("Cloudy")) {
+          return "url(#nightcloudy)";
+        } else {
+          return "url(#night)";
+        }
       }
-    })
-    .on("mouseover", handleMouseIn)
-    .on("mouseout", handleMouseOut);
+    });
+    //.on("mouseover", handleMouseIn)
+    //.on("mouseout", handleMouseOut);
 
   rows.selectAll("text")
     .data(function (d) {
@@ -156,7 +180,7 @@ function drawHistogram(data) {
     })
     .enter().append("text")
     .text(function (d) {
-      console.log("text");
+      console.log(d);
       return d.temperature + " " + d.temperatureUnit;
     })
     .attr("y", function (d) {
@@ -172,33 +196,37 @@ function drawHistogram(data) {
     
   svg.append("g")
     .attr("transform", "translate(0," + (height - margin.bottom) + ")")
-    .call(d3.axisBottom(x));
+    .call(d3.axisBottom(x))
+    .selectAll("g")
+    .selectAll("text")
+    .attr("width", barWidth);
 
   svg.append("g")
     .attr("transform", "translate(" + margin.left + ","+margin.top+")")
     .call(d3.axisLeft(y));
 
   function handleMouseIn(d, i) {
-    //rows.selectAll("rect")
-    //  .attr("width", barWidth);
-    //var sel = d3.select(this);
-    //var x = sel.attr("x");
-    //var y = sel.attr("y");
-    //d3.select(this.parentNode).moveToFront();
-    //sel.transition().duration(100).attr("width", 500);
-    //d3.select(this.parentNode)
-    //  .data(function (d) {
-    //  return [d];
-    //}).enter().append("text")
-    //  .text(function (d) {
-    //    return d.shortForecast;
-    //  })
-    //  .attr("x", x)
-    //  .attr("y", y);
+    rows.selectAll("rect")
+      .attr("width", barWidth);
+    var sel = d3.select(this);
+    var x = sel.attr("x");
+    var y = sel.attr("y");
+    d3.select(this.parentNode).moveToFront();
+    sel.transition().duration(100).attr("width", 500);
+    // add forecast to parent node
+    console.log(d3.select(sel.node().parentNode).select("g"));
+    d3.select(this.parentNode)
+      .selectAll(".description")
+      .attr("style", "display: block;");
   }
 
   function handleMouseOut(d, i) {
-    //d3.select(this).attr("width", barWidth);
+    d3.select(this).attr("width", barWidth);
+    d3.select(this.parentNode)
+      .selectAll(".decription").remove();
+    d3.select(this.parentNode)
+      .selectAll(".description")
+      .attr("style", "display: hidden;");
   }
 
   
