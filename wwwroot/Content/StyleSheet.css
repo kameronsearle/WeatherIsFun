@@ -1,0 +1,26 @@
+﻿
+body {
+    background-color: lightblue;
+    background-image: url('../images/bc.png');
+    align-content: center;
+    text-align: center;
+    background-attachment: fixed;
+    margin-left: 20px;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: auto;
+}
+
+h1 {
+    color: darkred;
+    margin-left: 24px;
+    font-size: 20px;
+}
+#content {
+    color: darkblue;
+    font-size: large;
+  
+}
