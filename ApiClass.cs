@@ -18,8 +18,11 @@ namespace WeatherIsFun
         public ApiClass()
         {
             httpClient = new HttpClient();
-            weatherUri = new Uri("https://api.weatherbit.io/v2.0/forecast/3hourly?");
-            ApiKey = "3fc84cd75954400286c2a01862d36683";
+            // weatherUri = new Uri("https://api.weatherbit.io/v2.0/current?");
+            weatherUri = new Uri("https://api.openweathermap.org/data/2.5/forecast?q=");
+            //ApiKey = "3fc84cd75954400286c2a01862d36683";
+            //ApiKey = "6ee32fcf7b6f047c765508d65a86eebf";
+            ApiKey = "886705b4c1182eb1c69f28eb8c520e20";
 
             httpClient.BaseAddress = weatherUri;
             httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -32,15 +35,29 @@ namespace WeatherIsFun
         
         public string getWeatherByCityName(string city)
         {
-            string cityString = "city=" + city + ",NC&key=" + ApiClass.ApiKey;
+            string complete = "city="+ city +",US&appid=" + ApiClass.ApiKey;
             
-            Uri cityUri = new Uri(cityString);
+            Uri cityUri = new Uri(complete);           
             Uri newUri = new Uri(ApiClass.weatherUri, cityUri);
             
+
             //do the request here
             //then return it
 
             return null;
+        }
+
+        private async Task<string> createProductAsync(string path)
+        {
+            Uri pathUri = new Uri(path);
+            string result = "";
+            HttpResponseMessage resp = await httpClient.GetAsync(pathUri);
+
+            if (resp.IsSuccessStatusCode)
+            {
+                //result = resp.Content;
+            }
+            return "";
         }
 
     }
