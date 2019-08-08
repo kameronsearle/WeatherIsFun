@@ -7,7 +7,7 @@ using System.Net.Http;
 
 namespace WeatherIsFun
 {
-    public class ApiClass
+    public class OpenWeatherClient
     {
         //this is where John and I create a class to create an API connection for Aaron's JS file to query with
 
@@ -15,17 +15,16 @@ namespace WeatherIsFun
         public static Uri weatherUri;
         public static string ApiKey;
 
-        public ApiClass()
+        public OpenWeatherClient()
         {
             httpClient = new HttpClient();
             // weatherUri = new Uri("https://api.weatherbit.io/v2.0/current?");
             weatherUri = new Uri("https://api.openweathermap.org/data/2.5/forecast?q=");
-            //ApiKey = "6ee32fcf7b6f047c765508d65a86eebf";
-            //ApiKey = "b9ece6529f842e2c6c1df682183c4f3a";
-            ApiKey = "886705b4c1182eb1c69f28eb8c520e20";
+            ApiKey = "be9480de0e2a569cdce658cd82879182";
 
             httpClient.BaseAddress = weatherUri;
             httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            
         }
 
         public void Test()
@@ -33,29 +32,18 @@ namespace WeatherIsFun
             Console.WriteLine("TESTTTTTT");
         }
         
-        public string getWeatherByCityName(string city, string state)
+
+        public async Task<string> getForecastByLatLong(string lat, string lon)
         {
-            string cityString = $"city={city},US&key={ApiClass.ApiKey}";
-
-            Uri cityUri = new Uri(cityString);
-
-            //do the request here
-            //then return it
-
-            return null;
-        }
-
-        private async Task<string> createProductAsync(string path)
-        {
-            Uri pathUri = new Uri(path);
-            string result = "";
-            HttpResponseMessage resp = await httpClient.GetAsync(pathUri);
+            UriBuilder uriBuilder = new UriBuilder("https://samples.openweathermap.org/data/2.5/forecast");
+            uriBuilder.Query = $"lat={lat}&lon={lon}&APPID={ApiKey}";
+            HttpResponseMessage resp = await httpClient.GetAsync(uriBuilder.Uri);
 
             if (resp.IsSuccessStatusCode)
             {
-                //result = resp.Content;
+                return await resp.Content.ReadAsStringAsync();
             }
-            return "";
+            return "{success:false}";
         }
 
     }

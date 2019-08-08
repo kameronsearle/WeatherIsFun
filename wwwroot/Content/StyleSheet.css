@@ -24,3 +24,15 @@ h1 {
     font-size: large;
   
 }
+
+.temperatureText {
+  font-family: 'Times New Roman';
+  font-size: 32px;
+  stroke-width: 1px;
+  stroke: black;
+  font-weight: bold;
+}
+
+.clear {
+  background-image: url(~/Images/sunny_image.jpg);
+}
