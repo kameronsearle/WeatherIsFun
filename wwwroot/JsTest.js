@@ -1,1 +1,0 @@
-﻿console.log("JS FILE IS CONNECTED");
