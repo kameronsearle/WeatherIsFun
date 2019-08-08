@@ -20,8 +20,8 @@ namespace WeatherIsFun
             httpClient = new HttpClient();
             // weatherUri = new Uri("https://api.weatherbit.io/v2.0/current?");
             weatherUri = new Uri("https://api.openweathermap.org/data/2.5/forecast?q=");
-            //ApiKey = "3fc84cd75954400286c2a01862d36683";
             //ApiKey = "6ee32fcf7b6f047c765508d65a86eebf";
+            //ApiKey = "b9ece6529f842e2c6c1df682183c4f3a";
             ApiKey = "886705b4c1182eb1c69f28eb8c520e20";
 
             httpClient.BaseAddress = weatherUri;
